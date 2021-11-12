@@ -66,7 +66,9 @@ config_file = os.path.join(this_dir, 'arcgis_cdk_config_local.json')
 params = get_config(config_file)
 config = params["configuration"]
 instances = params["instances"]
-rdp_ingress = params["security_group_ingress"]["ip_address"]
+#update this so that we can RDP into the orchestration instance from a range of IPs.
+rdp_ingress = params["security_group_ingress"]["ip_address"].split(',')
+#rdp_ingress = params["security_group_ingress"]["ip_address"]
 
 class ArcgisCdkStack(core.Stack):
 
@@ -96,7 +98,11 @@ class ArcgisCdkStack(core.Stack):
         sg_private.add_ingress_rule(peer=sg_public , connection=ec2.Port.tcp(5986))
         sg_private.add_ingress_rule(peer=sg_private , connection=ec2.Port.all_traffic())
         sg_public.add_ingress_rule(peer=ec2.Peer.any_ipv4(), connection=ec2.Port.tcp(443))
-        sg_public.add_ingress_rule(peer=ec2.Peer.ipv4(rdp_ingress), connection=ec2.Port.tcp(3389))
+
+        #update this so that we can RDP into the orchestration instance from a range of IPs.
+        for rdp_ip in rdp_ingress:
+            sg_public.add_ingress_rule(peer=ec2.Peer.ipv4(rdp_ip), connection=ec2.Port.tcp(3389))
+        # sg_public.add_ingress_rule(peer=ec2.Peer.ipv4(rdp_ingress), connection=ec2.Port.tcp(3389))
         
         logger.info('Creating IAM Role for insances')
         role = iam.Role(self, config["stack_name"] + "-" + "arcgis-ec2-iam-role", assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"))

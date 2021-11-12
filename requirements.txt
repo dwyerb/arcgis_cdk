@@ -1,1 +1,8 @@
+aws-cdk.aws-s3
+aws_cdk.aws_ec2
+aws_cdk.aws_iam
+aws_cdk.aws_route53
+aws_cdk.aws_elasticloadbalancingv2
+aws_cdk.aws_elasticloadbalancingv2_targets
+aws_cdk.core
 -e .

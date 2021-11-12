@@ -38,6 +38,6 @@
         }
     },
     "security_group_ingress" : {
-        "ip_address" : ""
+        "ip_address" : "<comma delimted list of maxar ip ranges>"
     }
 }   

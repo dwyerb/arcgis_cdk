@@ -84,6 +84,9 @@ Now that you have your virtual environment setup with AWS CDK, let's take a look
 * `kp_name` - key pair name
 * `public_hosted_zone_id` - zone id for your Route53 public hosted zone
 
+Note: The stack_name and the hosted zone will combine to become the url you use to access the site. For example, if you stack name is 'colorado' and the hosted zone is 'abc.com', the site will be 'https://colorado.abc.com/portal/home' 
+Note: The certificate should be for the final site name, ie 'colorado.abc.com'
+
 Once the arcgis_cdk_config.json has been updated, run the following commands to deploy your code.
 
 ```
@@ -122,6 +125,8 @@ A detailed review of the Variables can be found at the [Variable Reference](http
 
 You will need to edit this file we your private IP addresses from the arcgis_cdk deployment above. 
 
+Note: Use the same username and password for all credentials in the DSC Configuration file.  
+
 ### S3 Bucket Artifacts
 
 We are going to execute code remotely on EC2 Instances and some of the execution requires files to be present in our S3 bucket that was created by the CDK. 
@@ -151,6 +156,7 @@ Edit the following sections within the `EC2InstancePrep.ps1` file:
 * License file name
 * IP Addresses of machines
 * Username / Password of service account
+* Don't use variables for the key.  Use the keys themselves for both the -Key and the -File 
 
 Login to your AWS Account to Execute the Code: 
 
@@ -191,6 +197,8 @@ At this point the infrastructure should have been stood up with CDK, the EC2 Ins
     * Other parameters can be left as default
     * *(Optionally)* Configure an S3 Bucket where Command output will be added
 7. Execute the Run Command!!
+
+NOTE: You can also run this command in Powershell from the Orchestration instance.  This will allow you to see feedback from the command line rather than through the aws gui.
 
 ### Summary
 

@@ -31,6 +31,7 @@ New-LocalUser -Name $creds.Username -Password $creds.Password
 Add-LocalGroupMember -Group "Administrators" -Member $dsc_username
 
 # Download software to C:\Software
+# Don't use variables for the key.  Use the keys themselves for both the -Key and the -File
 Read-S3Object -BucketName $bucket_name -Key $ags_license -File "C:\Software\"$ags_license
 Read-S3Object -BucketName $bucket_name -Key $portal_license -File "C:\Software\"$portal_license
 Read-S3Object -BucketName $bucket_name -Key $datastore_key -File "C:\Software\"$datastore_key
